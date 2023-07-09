@@ -1,0 +1,23 @@
+.field {
+   position: relative;
+}
+
+.btns {
+   position: absolute;
+   right: 0;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   margin-right: 10px;
+
+   button {
+      height: 50%;
+      padding: 5px;
+   }
+
+}
+
+.arrow_increment {
+   transform: rotate(180deg);
+}

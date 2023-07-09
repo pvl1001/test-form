@@ -1,0 +1,33 @@
+.slot_list {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 25px;
+}
+
+.slot {
+   flex: 1 0 200px;
+   cursor: pointer;
+
+   input {
+      display: none;
+   }
+
+   input + div {
+      display: grid;
+      place-items: center;
+      height: 45px;
+      border-radius: 23px;
+      font-weight: 600;
+      border: 1px solid #ededed;
+      font-size: 20px;
+      transition: var(--transition);
+   }
+
+   input:checked + div {
+      color: var(--fiolet-dark);
+      background-color: var(--fiolet-light-extra);
+      border-color: transparent;
+   }
+
+}
+

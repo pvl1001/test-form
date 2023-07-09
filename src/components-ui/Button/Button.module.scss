@@ -1,0 +1,20 @@
+._ {
+   border-radius: 4px;
+   background-color: var(--fiolet);
+   height: 67px;
+   color: #fff;
+   font-size: 20px;
+   font-weight: 500;
+   transition: var(--transition) ease-out;
+
+   &:hover:not(:disabled) {
+      box-shadow: #ccc 0 0 20px 3px;
+      background-color: var(--fiolet-light);
+   }
+
+   &:disabled {
+      background-color: #F2F2F2;
+      cursor: auto;
+      color: #ACACAC;
+   }
+}

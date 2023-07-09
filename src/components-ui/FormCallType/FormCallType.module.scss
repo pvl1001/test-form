@@ -1,0 +1,43 @@
+.type_list {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 25px;
+}
+
+.type {
+   flex: 1 0 200px;
+   cursor: pointer;
+
+   input {
+      display: none;
+   }
+
+   input + div {
+      padding-top: 10px;
+      display: grid;
+      place-items: center;
+      height: 85px;
+      border-radius: 4px;
+      border: 1px solid #ededed;
+      font-size: 16px;
+      transition: var(--transition);
+
+   }
+
+   input:checked + div {
+      color: var(--fiolet-dark);
+      background-color: var(--fiolet-light-extra);
+      border-color: transparent;
+
+      svg path {
+         stroke: var(--fiolet-dark)
+      }
+   }
+
+}
+
+.icon {
+   display: grid;
+   place-items: center;
+}
+
