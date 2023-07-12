@@ -40,9 +40,9 @@ function FormStep4( { setStep }: {
             await request.post( API_PATH.ORDERS, data )
             setOrder( data )
             setStep( 5 )
-
-         } catch ( err ) {
+         } catch ( err: any ) {
             console.log( err )
+            alert( err.message )
          }
       }
    } )
@@ -52,8 +52,9 @@ function FormStep4( { setStep }: {
       try {
          const { data } = await request<TAppointment[]>( API_PATH.APPOINTMENTS )
          setAppointments( data )
-      } catch ( err ) {
+      } catch ( err: any ) {
          console.log( err )
+         alert( err.message )
       }
    }
 
