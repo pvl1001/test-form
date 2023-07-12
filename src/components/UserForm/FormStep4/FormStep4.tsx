@@ -12,6 +12,7 @@ import { FormContext } from "../../../context/FormContext";
 import { API_PATH } from "../../../utils/constants";
 import utc from 'dayjs/plugin/utc'
 import { validationStep4 } from "../../../utils/validations";
+import { SelectProps } from "@mui/material/Select/Select";
 
 
 dayjs.extend( utc )
@@ -86,6 +87,12 @@ function FormStep4( { setStep }: {
       setSelectTimeItems( appointments, date )
    }
 
+   /** Выбор времени */
+   function onChangeSelectHandler( e: SelectProps ) {
+      formik.handleChange( e )
+      if ( formik.values.slotTime ) formik.setFieldValue( 'slotTime', '' )
+   }
+
    useEffect( () => {
       getAppointments()
    }, [] )
@@ -109,7 +116,7 @@ function FormStep4( { setStep }: {
          <FormSelect
             name={ 'appointmentTime' }
             label={ 'Select time' }
-            handleChange={ formik.handleChange }
+            handleChange={ onChangeSelectHandler }
             value={ formik.values.appointmentTime }
             items={ currentTimes }
             disabled={ !formik.values.appointmentDate }
@@ -119,17 +126,19 @@ function FormStep4( { setStep }: {
             <>
                <FormSlot
                   label={ 'Choose a slot' }
+                  name={ 'slotTime' }
                   appointmentTimeValue={ formik.values.appointmentTime }
                   value={ formik.values.slotTime }
-                  onChange={ e => formik.setFieldValue( 'slotTime', e.target.value ) }
+                  onChange={ formik.handleChange }
                />
                <FormCallType
                   label={ 'Call type' }
+                  name={ 'callType' }
                   value={ formik.values.callType }
-                  onChange={ e => formik.setFieldValue( 'callType', e.target.value ) }
+                  onChange={ formik.handleChange }
                />
-            </> }
-
+            </>
+         }
 
          <Button
             type={ 'submit' }

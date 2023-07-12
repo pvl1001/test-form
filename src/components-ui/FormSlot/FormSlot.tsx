@@ -3,9 +3,10 @@ import { ChangeEvent } from "react";
 import dayjs from "dayjs";
 
 
-function FormSlot( { label, value, appointmentTimeValue, onChange }: {
+function FormSlot( { label, value, name, appointmentTimeValue, onChange }: {
    label: string
    value: string
+   name: string
    appointmentTimeValue: string
    onChange: ( e: ChangeEvent<HTMLInputElement> ) => void
 } ) {
@@ -22,7 +23,7 @@ function FormSlot( { label, value, appointmentTimeValue, onChange }: {
             <label className={ s.slot }>
                <input
                   type="radio"
-                  name={ 'slot' }
+                  name={ name }
                   value={ `${ start } to ${ second.format( 'hh:mm a' ) }` }
                   checked={ value === `${ start } to ${ second.format( 'hh:mm a' ) }` }
                   onChange={ onChange }
@@ -33,7 +34,7 @@ function FormSlot( { label, value, appointmentTimeValue, onChange }: {
             <label className={ s.slot }>
                <input
                   type="radio"
-                  name={ 'slot' }
+                  name={ name }
                   value={ `${ second.format( 'hh:mm' ) } to ${ end.format( 'hh:mm a' ) }` }
                   checked={ value === `${ second.format( 'hh:mm' ) } to ${ end.format( 'hh:mm a' ) }` }
                   onChange={ onChange }

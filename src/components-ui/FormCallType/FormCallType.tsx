@@ -5,8 +5,9 @@ import { TCallType } from "../../types";
 import { ChangeEvent } from "react";
 
 
-function FormCallType( { label, value, onChange }: {
+function FormCallType( { label, value, name, onChange }: {
    label: string
+   name: string
    value: TCallType
    onChange: ( e: ChangeEvent<HTMLInputElement> ) => void
 } ) {
@@ -18,7 +19,7 @@ function FormCallType( { label, value, onChange }: {
             <label className={ s.type }>
                <input
                   type="radio"
-                  name={ 'type' }
+                  name={ name }
                   value="video"
                   checked={ value === 'video' }
                   onChange={ onChange }
@@ -32,7 +33,7 @@ function FormCallType( { label, value, onChange }: {
             <label className={ s.type }>
                <input
                   type="radio"
-                  name={ 'type' }
+                  name={ name }
                   value="audio"
                   checked={ value === 'audio' }
                   onChange={ onChange }
