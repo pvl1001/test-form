@@ -4,7 +4,7 @@ import FormInput from "../FormInput/FormInput";
 import phoneMask from "../../utils/phoneMask";
 import { ReactComponent as FlagIcon } from '../../assets/svg/flag.svg';
 import { FormikProps } from "formik";
-import { TFormInitialStateStep1 } from "../../types";
+import { TFormStep1 } from "../../types";
 
 
 const items = [
@@ -15,7 +15,7 @@ const items = [
 
 function PhoneNumber( { label = 'Phone number', formik }: {
    label?: string
-   formik: FormikProps<TFormInitialStateStep1>
+   formik: FormikProps<TFormStep1>
 } ) {
    return (
       <div className={ s._ }>
@@ -26,13 +26,13 @@ function PhoneNumber( { label = 'Phone number', formik }: {
                sx={ { width: 130 } }
                name={ 'phoneCode' }
                handleChange={ formik.handleChange }
-               defaultValue={ '+91' }
+               value={ formik.values.phoneCode }
                items={ items }
             />
 
             <FormInput
                name={ 'phoneNumber' }
-               value={ formik.values.phoneNumber }
+               value={ formik.values.phoneNumber as string }
                handleChange={ e => formik.setFieldValue( 'phoneNumber', phoneMask( e.target.value ) ) }
                placeholder={ 'number' }
                inputProps={ { maxLength: 12 } }

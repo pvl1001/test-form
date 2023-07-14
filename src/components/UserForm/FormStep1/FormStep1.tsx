@@ -9,7 +9,7 @@ import FormNumber from "../../../components-ui/FormNumber/FormNumber";
 import ChildSize from "../../ChildSize/ChildSize";
 import dayjs, { Dayjs } from "dayjs";
 import PhoneNumber from "../../../components-ui/PhoneNumber/PhoneNumber";
-import { TFormDataWithPhone, TFormInitialStateStep1, TOrdersContext, TStep } from "../../../types";
+import { TFormStep1, TOrdersContext, TStep } from "../../../types";
 import { FormContext } from "../../../context/FormContext";
 import { validationStep1 } from "../../../utils/validations";
 
@@ -26,35 +26,24 @@ yup.addMethod( yup.string, 'email', function validateEmail( message ) {
 function FormStep1( { setStep }: {
    setStep: ( step: TStep ) => void
 } ) {
-   const { setOrder } = useContext<TOrdersContext>( FormContext )
-   const formik = useFormik<TFormInitialStateStep1>( {
+   const { order, setOrder } = useContext<TOrdersContext>( FormContext )
+   const formik = useFormik<TFormStep1>( {
       initialValues: {
-         name: '',
-         birthDate: '',
-         isShowBornWeek: 0,
-         bornWeek: 20,
-         weight: '',
-         height: '',
-         weightUnit: 'kg',
-         heightUnit: 'cm',
-         email: '',
-         phoneCode: '+91',
-         phoneNumber: ''
+         name: order.name || '',
+         birthDate: order.birthDate,
+         isShowBornWeek: order.isShowBornWeek || 0,
+         bornWeek: order.bornWeek || 20,
+         weight: order.weight || '',
+         height: order.height || '',
+         weightUnit: order.weightUnit || 'kg',
+         heightUnit: order.heightUnit || 'cm',
+         email: order.email || '',
+         phoneCode: order.phoneCode || '+91',
+         phoneNumber: order.phoneNumber || ''
       },
       validationSchema: validationStep1,
-      onSubmit: async ( values: TFormInitialStateStep1 ) => {
-         const {
-            isShowBornWeek,
-            bornWeek,
-            phoneCode,
-            phoneNumber,
-            ...rest
-         } = values
-         const phone = ( phoneCode + phoneNumber ).replaceAll( ' ', '' )
-         const data = isShowBornWeek === 0
-            ? { ...rest, phone } as Omit<TFormDataWithPhone, 'bornWeek'>
-            : { ...rest, bornWeek, phone } as TFormDataWithPhone
-         setOrder( data )
+      onSubmit: async ( values: TFormStep1 ) => {
+         setOrder( { ...values, isValidStep1: true } )
          setStep( 4 )
       }
    } )
@@ -84,6 +73,7 @@ function FormStep1( { setStep }: {
             placeholder={ 'November 14, 2020' }
             error={ formik.errors.birthDate }
             maxDate={ dayjs().subtract( 1, 'day' ) }
+            defaultValue={ formik.values.birthDate }
             onChange={ ( date: Dayjs ) => formik.setFieldValue( 'birthDate', date )
             }
          />
@@ -91,7 +81,7 @@ function FormStep1( { setStep }: {
          <FormRadio
             label={ 'Born at less than 37 weeks?' }
             name={ 'isShowBornWeek' }
-            defaultValue={ 0 }
+            value={ formik.values.isShowBornWeek as number }
             items={ [
                { label: 'No', value: 0 },
                { label: 'Yes', value: 1 },
@@ -140,7 +130,7 @@ function FormStep1( { setStep }: {
 
          <Button
             type={ 'submit' }
-            disabled={ !( formik.dirty && formik.isValid ) }
+            disabled={ !( ( formik.dirty || order.isValidStep1 ) && formik.isValid ) }
          >
             Next
          </Button>

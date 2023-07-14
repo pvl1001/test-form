@@ -34,12 +34,18 @@ function FormStep4( { setStep }: {
       },
       validationSchema: validationStep4,
       onSubmit: async ( values: TFormStep4 ) => {
-         // eslint-disable-next-line
-         const { appointmentTime, ...requestData } = values
-         const data: TOrder = { ...order, ...requestData }
+         const data: Partial<TOrder> = { ...order, ...values }
+         data.phone = ( order.phoneCode as string + order.phoneNumber ).replaceAll( ' ', '' )
+         delete data.phoneCode
+         delete data.phoneNumber
+         delete data.isValidStep1
+         delete data.appointmentTime
+         if ( order.isShowBornWeek === 0 ) delete data.bornWeek
+         delete data.isShowBornWeek
+
          try {
             await request.post( API_PATH.ORDERS, data )
-            setOrder( data )
+            setOrder( data as TOrder )
             setStep( 5 )
          } catch ( err: any ) {
             console.log( err )

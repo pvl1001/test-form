@@ -13,10 +13,10 @@ export type TSelectItem = {
 }
 
 
-export type TFormInitialStateStep1 = {
+export type TFormStep1 = {
    name: string,
-   birthDate: Dayjs | string,
-   isShowBornWeek: 0 | 1,
+   birthDate?: Dayjs,
+   isShowBornWeek?: 0 | 1,
    bornWeek: number,
    weight: string,
    height: string,
@@ -24,14 +24,11 @@ export type TFormInitialStateStep1 = {
    heightUnit: string,
    email: string,
    phoneCode: string,
-   phoneNumber: string
+   phoneNumber?: string
+   phone?: string
+   isValidStep1?: boolean
 }
 
-export type TFormDataWithPhone = Omit<TFormInitialStateStep1, 'phoneCode' | 'phoneNumber' | 'isShowBornWeek'> & {
-   phone: string
-}
-
-export type TFormDataWithPhoneStep1 = TFormDataWithPhone | Omit<TFormDataWithPhone, 'bornWeek'>
 
 export type TFormStep4 = {
    appointmentDate: Dayjs | string,
@@ -42,7 +39,9 @@ export type TFormStep4 = {
 
 export type TCallType = '' | 'video' | 'audio'
 
-export type TOrder = TFormDataWithPhoneStep1 & Partial<TFormStep4>
+export type TOrder =
+   Exclude<TFormStep1, [ 'isValidStep1', 'phoneNumber', 'phoneCode', 'isShowBornWeek' ]>
+   & Partial<TFormStep4>
 
 export type TOrdersContext = { order: TOrder, setOrder: ( data: TOrder ) => void }
 

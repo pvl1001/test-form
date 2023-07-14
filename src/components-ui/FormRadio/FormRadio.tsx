@@ -3,9 +3,9 @@ import { ChangeEvent } from "react";
 import s from './FormRadio.module.scss';
 
 
-function FormRadio( { name, label, items, defaultValue, handleChange }: {
+function FormRadio( { name, label, items, value, handleChange }: {
    label: string
-   defaultValue: string | number | boolean
+   value: string | number | boolean
    name: string
    items: Array<{
       label: string
@@ -22,7 +22,7 @@ function FormRadio( { name, label, items, defaultValue, handleChange }: {
 
             <RadioGroup
                aria-labelledby="radio-buttons-group-label"
-               defaultValue={ defaultValue }
+               value={ value }
                name={ name }
                onChange={ handleChange }
             >

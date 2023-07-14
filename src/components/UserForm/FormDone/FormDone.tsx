@@ -10,13 +10,13 @@ import { FormContext } from "../../../context/FormContext";
 import { DATE_FORMAT } from "../../../utils/constants";
 import dayjs from "dayjs";
 import Button from "../../../components-ui/Button/Button";
-import { TStep } from "../../../types";
+import { TOrder, TStep } from "../../../types";
 
 
 function FormDone( { setStep }: {
    setStep: ( step: TStep ) => void
 } ) {
-   const { order } = useContext( FormContext )
+   const { order, setOrder } = useContext( FormContext )
    const [ orderList ] = useState( () => [
       {
          icon: <CalendarIcon/>,
@@ -41,6 +41,11 @@ function FormDone( { setStep }: {
       },
    ] )
 
+   function clickDone() {
+      setOrder( {} as TOrder )
+      setStep( 1 )
+   }
+
 
    return (
       <div className={ s._ }>
@@ -60,7 +65,7 @@ function FormDone( { setStep }: {
             </ul>
          </div>
 
-         <Button onClick={ () => setStep( 1 ) }>Done</Button>
+         <Button onClick={ clickDone }>Done</Button>
       </div>
    )
 }
