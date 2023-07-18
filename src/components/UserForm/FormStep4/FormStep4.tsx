@@ -1,6 +1,5 @@
 import Button from "../../../components-ui/Button/Button";
 import { useFormik } from "formik";
-import FormDateInput from "../../../components-ui/FormDateInput/FormDateInput";
 import FormSelect from "../../../components-ui/FormSelect/FormSelect";
 import FormSlot from "../../../components-ui/FormSlot/FormSlot";
 import FormCallType from "../../../components-ui/FormCallType/FormCallType";
@@ -13,6 +12,7 @@ import { API_PATH } from "../../../utils/constants";
 import utc from 'dayjs/plugin/utc'
 import { validationStep4 } from "../../../utils/validations";
 import { SelectProps } from "@mui/material/Select/Select";
+import FormDateInput from "../../../components-ui/FormDateInput/FormDateInput";
 
 
 dayjs.extend( utc )
@@ -32,7 +32,7 @@ function FormStep4( { setStep }: {
          slotTime: '',
          callType: 'video',
       },
-      validationSchema: validationStep4,
+      validationSchema: validationStep4( shouldDisableDate ),
       onSubmit: async ( values: TFormStep4 ) => {
          const data: Partial<TOrder> = { ...order, ...values }
          data.phone = ( order.phoneCode as string + order.phoneNumber ).replaceAll( ' ', '' )
@@ -80,7 +80,7 @@ function FormStep4( { setStep }: {
    }
 
    /** Заблокировать недоступные даты */
-   function shouldDisableDate( date: Dayjs | string ) {
+   function shouldDisableDate( date?: Date ) {
       const dateWithFormat = dayjs( date ).format( 'YYYY-MM-DD' )
       const dates = appointments.map( el => el.split( ' ' )[0] )
       return !dates.includes( dateWithFormat )
@@ -109,14 +109,13 @@ function FormStep4( { setStep }: {
 
          <h2 className={ 'form-title' }>Schedule an appointment</h2>
 
-         <FormDateInput
+         <FormDateInput<TFormStep4>
             name={ 'appointmentDate' }
             label={ 'Select date' }
-            placeholder={ 'November 14, 2020' }
-            error={ formik.errors.appointmentDate }
             disablePast
             shouldDisableDate={ shouldDisableDate }
             onChange={ onChangeDateHandler }
+            formik={ formik }
          />
 
          <FormSelect
@@ -125,7 +124,7 @@ function FormStep4( { setStep }: {
             handleChange={ onChangeSelectHandler }
             value={ formik.values.appointmentTime }
             items={ currentTimes }
-            disabled={ !formik.values.appointmentDate }
+            disabled={ !formik.values.appointmentDate || ( formik.touched.appointmentDate && !!formik.errors.appointmentDate ) }
          />
 
          { formik.values.appointmentTime &&

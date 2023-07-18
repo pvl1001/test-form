@@ -7,7 +7,7 @@ import { ChangeEvent, useContext } from "react";
 import FormRadio from "../../../components-ui/FormRadio/FormRadio";
 import FormNumber from "../../../components-ui/FormNumber/FormNumber";
 import ChildSize from "../../ChildSize/ChildSize";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import PhoneNumber from "../../../components-ui/PhoneNumber/PhoneNumber";
 import { TFormStep1, TOrdersContext, TStep } from "../../../types";
 import { FormContext } from "../../../context/FormContext";
@@ -30,7 +30,7 @@ function FormStep1( { setStep }: {
    const formik = useFormik<TFormStep1>( {
       initialValues: {
          name: order.name || '',
-         birthDate: order.birthDate,
+         birthDate: order.birthDate || '',
          isShowBornWeek: order.isShowBornWeek || 0,
          bornWeek: order.bornWeek || 20,
          weight: order.weight || '',
@@ -67,15 +67,11 @@ function FormStep1( { setStep }: {
             helperText={ formik.touched.name && formik.errors.name }
          />
 
-         <FormDateInput
+         <FormDateInput<TFormStep1>
             name={ 'birthDate' }
             label={ 'Child\'s date of brith' }
-            placeholder={ 'November 14, 2020' }
-            error={ formik.errors.birthDate }
             maxDate={ dayjs().subtract( 1, 'day' ) }
-            defaultValue={ formik.values.birthDate }
-            onChange={ ( date: Dayjs ) => formik.setFieldValue( 'birthDate', date )
-            }
+            formik={ formik }
          />
 
          <FormRadio

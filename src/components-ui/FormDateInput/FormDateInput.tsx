@@ -1,29 +1,32 @@
-import { FormControl } from "@mui/material";
-import { DatePicker, DatePickerProps } from "@mui/x-date-pickers";
+import { FormControl, TextField } from "@mui/material";
+import { DesktopDatePicker, DesktopDatePickerProps } from "@mui/x-date-pickers";
 import { DATE_FORMAT } from "../../utils/constants";
+import { FormikProps, FormikValues } from "formik";
+import { Dayjs } from "dayjs";
 
 
-interface IProps extends DatePickerProps<any> {
-   label: string
-   placeholder?: string
+function FormDateInput<F>( { name, formik, label, ...rest }: {
    name: string
-   error?: string
-}
-
-function FormDateInput( { label, placeholder, error, ...rest }: IProps ) {
+   label: string
+   formik: FormikProps<F>
+} & Partial<DesktopDatePickerProps<any, any>> ) {
    return (
       <FormControl fullWidth>
          <label className="input-label">{ label }</label>
-         <DatePicker
-            format={ DATE_FORMAT }
-            slotProps={ {
-               textField: {
-                  error: !!error,
-                  helperText: error,
-                  placeholder,
-               }
-            } }
+         <DesktopDatePicker
+            inputFormat={ DATE_FORMAT }
+            value={ ( formik.values as FormikValues )[name] }
+            onChange={ ( date: Dayjs ) => formik.setFieldValue( name, date ) }
             { ...rest }
+            renderInput={ ( params ) =>
+               <TextField
+                  name={ name }
+                  onBlur={ formik.handleBlur }
+                  helperText={ ( formik.touched as any )[name] && ( formik.errors as any )[name] }
+                  { ...params }
+                  error={ ( formik.touched as any )[name] && !!( formik.errors as any )[name] }
+               />
+            }
          />
       </FormControl>
    )

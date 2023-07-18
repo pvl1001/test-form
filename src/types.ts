@@ -15,7 +15,7 @@ export type TSelectItem = {
 
 export type TFormStep1 = {
    name: string,
-   birthDate?: Dayjs,
+   birthDate?: Dayjs | string,
    isShowBornWeek?: 0 | 1,
    bornWeek: number,
    weight: string,
