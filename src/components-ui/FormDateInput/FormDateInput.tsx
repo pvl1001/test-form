@@ -16,7 +16,7 @@ function FormDateInput<F>( { name, formik, label, ...rest }: {
          <DesktopDatePicker
             inputFormat={ DATE_FORMAT }
             value={ ( formik.values as FormikValues )[name] }
-            onChange={ ( date: Dayjs ) => formik.setFieldValue( name, date ) }
+            onChange={ ( date: Dayjs ) => formik.setFieldValue( name, date.format( DATE_FORMAT ) ) }
             { ...rest }
             renderInput={ ( params ) =>
                <TextField

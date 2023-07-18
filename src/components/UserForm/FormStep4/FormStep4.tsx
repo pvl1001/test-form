@@ -8,7 +8,7 @@ import { TAppointment, TFormStep4, TOrder, TSelectItem, TStep } from "../../../t
 import { useContext, useEffect, useState } from "react";
 import { request } from "../../../utils/request";
 import { FormContext } from "../../../context/FormContext";
-import { API_PATH } from "../../../utils/constants";
+import { API_PATH, DATE_FORMAT } from "../../../utils/constants";
 import utc from 'dayjs/plugin/utc'
 import { validationStep4 } from "../../../utils/validations";
 import { SelectProps } from "@mui/material/Select/Select";
@@ -81,7 +81,7 @@ function FormStep4( { setStep }: {
 
    /** Заблокировать недоступные даты */
    function shouldDisableDate( date?: Date ) {
-      const dateWithFormat = dayjs( date ).format( 'YYYY-MM-DD' )
+      const dateWithFormat = dayjs( date ).format( DATE_FORMAT )
       const dates = appointments.map( el => el.split( ' ' )[0] )
       return !dates.includes( dateWithFormat )
    }
@@ -89,7 +89,7 @@ function FormStep4( { setStep }: {
    /** Выбор даты */
    function onChangeDateHandler( date: Dayjs ) {
       if ( formik.values.appointmentTime ) formik.setFieldValue( 'appointmentTime', '' )
-      formik.setFieldValue( 'appointmentDate', date )
+      formik.setFieldValue( 'appointmentDate', date.format( DATE_FORMAT ) )
       setSelectTimeItems( appointments, date )
    }
 
