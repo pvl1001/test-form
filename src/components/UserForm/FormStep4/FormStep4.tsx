@@ -89,7 +89,7 @@ function FormStep4( { setStep }: {
    /** Выбор даты */
    function onChangeDateHandler( date: Dayjs ) {
       if ( formik.values.appointmentTime ) formik.setFieldValue( 'appointmentTime', '' )
-      formik.setFieldValue( 'appointmentDate', date.format( DATE_FORMAT ) )
+      formik.setFieldValue( 'appointmentDate', date?.format( DATE_FORMAT ) ?? '' )
       setSelectTimeItems( appointments, date )
    }
 
